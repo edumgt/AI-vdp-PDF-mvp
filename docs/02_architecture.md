@@ -32,10 +32,10 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-  IN[Order Input: langs + NAME/DATE] --> L1[Load Manuscript by (book,page,lang)]
+  IN[Order Input: langs + NAME/DATE] --> L1[Load Manuscript by book, page, lang]
   L1 --> T1[Load Page Template]
-  T1 --> C{Is Page in\nCover/Opening/Closing?}
-  C -- Yes --> R1[Replace tokens {NAME},{DATE}]
+  T1 --> C{Is Page in Cover/Opening/Closing?}
+  C -- Yes --> R1[Replace tokens NAME, DATE]
   C -- No --> R2[Skip personalization]
   R1 --> B1[Line Break by language rules]
   R2 --> B1
