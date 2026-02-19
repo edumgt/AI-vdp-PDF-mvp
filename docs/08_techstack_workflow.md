@@ -17,15 +17,15 @@ flowchart TB
   end
 
   subgraph PKG[Internal Packages]
-    SH[@joya/shared\n공통 유틸/상수]
-    LE[@joya/layout-engine\n라인브레이크/Render Tree]
-    PE[@joya/pdf-engine\npdf-lib + fontkit]
+    SH["@joya/shared\n공통 유틸/상수"]
+    LE["@joya/layout-engine\n라인브레이크/Render Tree"]
+    PE["@joya/pdf-engine\npdf-lib + fontkit"]
   end
 
   subgraph DATA[Data & Infra]
     PG[(PostgreSQL)]
     RD[(Redis)]
-    ST[(Storage\nLocal/MinIO)]
+    ST["(Storage\nLocal/MinIO)"]
     DC[Docker Compose]
   end
 
@@ -40,9 +40,9 @@ flowchart TB
   API --> SH
   WK --> SH
   PE --> ST
-  DC -.orchestrates.-> FE
-  DC -.orchestrates.-> BE
-  DC -.orchestrates.-> DATA
+  DC -.-> FE
+  DC -.-> BE
+  DC -.-> DATA
 ```
 
 ## 2) 모노레포 구성 관점 의존 관계
