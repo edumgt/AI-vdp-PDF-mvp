@@ -10,3 +10,4 @@
 5. `05_api_spec.md` — API 요약 명세
 6. `06_preflight_checklist.md` — 인쇄 사고 방지 점검(자동화 포함)
 7. `07_deploy_guide.md` — Docker 기반 배포/운영 가이드
+8. `08_techstack_workflow.md` — 기술스택 및 E2E 워크플로우 Mermaid 차트
