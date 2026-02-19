@@ -67,6 +67,7 @@ curl -L http://localhost:8081/api/orders/<ORDER_ID>/pdf -o output.pdf
 - API 명세(요약): `docs/05_api_spec.md`
 - Preflight 체크리스트: `docs/06_preflight_checklist.md`
 - 배포 가이드(Docker): `docs/07_deploy_guide.md`
+- 기술스택/전체 워크플로우(mermaid): `docs/08_techstack_workflow.md`
 
 ---
 
