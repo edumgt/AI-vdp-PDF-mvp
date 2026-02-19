@@ -1,0 +1,18 @@
+FROM node:20-alpine
+WORKDIR /app
+COPY package.json package-lock.json* ./
+COPY apps/api-server/package.json apps/api-server/package.json
+COPY packages/layout-engine/package.json packages/layout-engine/package.json
+COPY packages/pdf-engine/package.json packages/pdf-engine/package.json
+COPY packages/shared/package.json packages/shared/package.json
+
+RUN npm install --omit=dev || npm install
+
+COPY apps/api-server apps/api-server
+COPY packages packages
+COPY scripts scripts
+COPY docs docs
+COPY infra infra
+
+EXPOSE 8081
+CMD ["node", "apps/api-server/src/server.js"]

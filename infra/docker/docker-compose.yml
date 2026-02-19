@@ -1,0 +1,93 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: joya-postgres
+    environment:
+      POSTGRES_DB: joya
+      POSTGRES_USER: joya
+      POSTGRES_PASSWORD: joya1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - joya_pg:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: joya-redis
+    ports:
+      - "6379:6379"
+
+  minio:
+    image: minio/minio:latest
+    container_name: joya-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - joya_minio:/data
+
+  api:
+    build:
+      context: ../../
+      dockerfile: infra/docker/Dockerfile.api
+    container_name: joya-api
+    env_file:
+      - ../../.env
+    ports:
+      - "8081:8081"
+    volumes:
+      - ../../storage:/app/storage
+      - ../../assets:/app/assets
+    depends_on:
+      - postgres
+      - redis
+      - minio
+
+  worker:
+    build:
+      context: ../../
+      dockerfile: infra/docker/Dockerfile.worker
+    container_name: joya-worker
+    env_file:
+      - ../../.env
+    volumes:
+      - ../../storage:/app/storage
+      - ../../assets:/app/assets
+    depends_on:
+      - postgres
+      - redis
+      - minio
+
+  web-client:
+    build:
+      context: ../../
+      dockerfile: infra/docker/Dockerfile.web-client
+    container_name: joya-web-client
+    environment:
+      - VITE_API_BASE=http://localhost:8081
+    ports:
+      - "3001:3001"
+    depends_on:
+      - api
+
+  web-admin:
+    build:
+      context: ../../
+      dockerfile: infra/docker/Dockerfile.web-admin
+    container_name: joya-web-admin
+    environment:
+      - VITE_API_BASE=http://localhost:8081
+    ports:
+      - "3002:3002"
+    depends_on:
+      - api
+
+volumes:
+  joya_pg:
+  joya_minio:
